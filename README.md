@@ -60,8 +60,8 @@ Features
 
 
 ## Tools used
-- clean data using python with pandas using jupyter notebook. [Download here](https://anaconda.com)
-- after cleaning of data we used seaborn visualization to give insights on the data for report. [Read Documentation here](https://seaborn.pydata.org/)
+- Clean data using python with pandas using jupyter notebook. [Download here](https://anaconda.com)
+- After cleaning of data we used seaborn visualization to give insights on the data for report. [Read Documentation here](https://seaborn.pydata.org/)
 - Data saved into excel from python for easy access
 
 ## Data Cleaning and Preparation
