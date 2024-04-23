@@ -80,11 +80,76 @@ EDA involved exploring the sales data to answer the key questions;
 
 ## Data Analysis
 
-Include interesting code/ features worked with 
+In Our Data Analysis we are using Jupyter Notebook, to code in python using pandas. as seen in the code belowe we start by importing pandas which is a library that I downloaded in Anaconda, as well as matplotlib which is a library for visualization, seaborn another library for visualization and in the data cleaning we imported regrex as re used for cleaning symbols or objects out of data. To run this code in your browser you can open this link [Google Colab](https://colab.new/)
 
-write python code used
 ```python
 import pandas as pd
+pd.plotting.register_matplotlib_converters()
+import matplotlib.pyplot as plt
+%matplotlib inline
+import seaborn as sns
+import re
+print("Setup Complete")
+
+data_url = r"C:\Users\Chitemwiko\OneDrive\Documents\amazon.csv"
+
+amazon_data = pd.read_csv(data_url,index_col="product_id")
+
+amazon_data.head()
+
+amazon_data.isnull().sum()
+
+amazon_data.fillna(method='bfill',axis=0).fillna(0,inplace=True)
+
+amazon_data.isnull().sum()
+
+amazon_data.dtypes
+
+amazon_data['discounted_price'] = amazon_data['discounted_price'].str.replace('₹','')
+amazon_data['actual_price'] = amazon_data['actual_price'].str.replace('₹','')
+amazon_data['discounted_price'] = amazon_data['discounted_price'].str.replace(',','')
+amazon_data['actual_price'] = amazon_data['actual_price'].str.replace(',','')
+amazon_data['discount_percentage'] = amazon_data['discount_percentage'].str.replace('%','')
+amazon_data['rating_count'] = amazon_data['rating_count'].str.replace(',','')
+amazon_data
+
+amazon_data.dtypes
+
+amazon_data['discounted_price'] = amazon_data['discounted_price'].astype('float')
+amazon_data['actual_price'] = amazon_data['actual_price'].astype('float')
+amazon_data['discount_percentage'] = amazon_data['discount_percentage'].astype('float')
+amazon_data['rating_count'] = amazon_data['rating_count'].astype('float')
+
+amazon_data.dtypes
+
+amazon_data.tail()
+
+category = amazon_data.groupby(['category'], observed= True)['rating_count'].sum().sort_values().head(10)
+category
+
+category.plot(kind="barh", fontsize=6)
+
+Data Shows that the category with the highest no. of ratings is Home & Kitchen in top 3 whilst Office Products comes in fourth place.
+
+
+
+category_ = amazon_data.groupby(['category'], observed= True)['rating_count'].sum().sort_values()
+
+category_.nlargest(8)
+
+category_.nsmallest(8)
+
+category_small = category_[category_<480]
+
+category_large = category_[category_>319000]
+
+small_s = pd.Series([category_small.sum()], index =["Other"])
+
+category_large = category_large.append(small_s)
+
+category_large.plot(kind='pie', title ="Sample of Category Data with Largest top 8 Rating Count with Other being the smallest Rating Count",fontsize=15,labeldistance=None, figsize =(10,10)).legend(bbox_to_anchor =(1.5,1),fontsize=15)
+
+
 ```
 
 ## Results and findings
