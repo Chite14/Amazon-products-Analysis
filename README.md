@@ -73,8 +73,8 @@ Features
 
 EDA involved exploring the sales data to answer the key questions;
 
-1. What is the overall average or sales trend or profit or depreciation?
-2. which products sold the most?
+1. What is the top 8 highest and lowest category rating count?
+2. which products have the highest rating?
 3. what periods had peak sales, made most money?
 4. Which products had the least ratings?
 
@@ -153,6 +153,9 @@ category_large.plot(kind='pie', title ="Sample of Category Data with Largest top
 ```
 
 ## Results and findings
+- Highest rating means that products haven't met customers full satisfaction.
+- We can see from the data that Home anf Kitchen appliances are the most sort after products and has the highest ratings followed by Office supplies, with Electronics being the least rated products.
+- 
 
 
 ## Recommendations
@@ -161,7 +164,10 @@ actions company needs to make based on analysis
 
 ## Limitations
 
-explain the what changes you made to data so they know weather information is reliable or not
+- The category column given the length of the string cannot be cleaned using .str.split() method. 
+The scope of the category column makes it difficult to give the largest and smallest rate count, given we cannot determine the average of each category as a whole.
+- This data set is mainly about user experience on the product itself, it leaves out information on the seller and delivery satisfaction. 
+
 
 ## references
 1. [Kaggle data set](https://kaggle.com)
