@@ -75,7 +75,7 @@ EDA involved exploring the sales data to answer the key questions;
 
 1. What is the top 8 highest and lowest category rating count?
 2. which products have the highest rating?
-3. what periods had peak sales, made most money?
+3. what is the correlation between the disocunt percentage and the ratings?
 4. Which products had the least ratings?
 
 ## Data Analysis
@@ -93,17 +93,17 @@ print("Setup Complete")
 
 data_url = r"C:\Users\Chitemwiko\OneDrive\Documents\amazon.csv"
 
-amazon_data = pd.read_csv(data_url,index_col="product_id")
+amazon_data = pd.read_csv(data_url)
 
 amazon_data.head()
 
 amazon_data.isnull().sum()
 
-amazon_data.fillna(method='bfill',axis=0).fillna(0,inplace=True)
-
-amazon_data.isnull().sum()
+amazon_data.head(10)
 
 amazon_data.dtypes
+
+amazon_data.fillna(method='bfill',axis=0).fillna(0,inplace=True)
 
 amazon_data['discounted_price'] = amazon_data['discounted_price'].str.replace('₹','')
 amazon_data['actual_price'] = amazon_data['actual_price'].str.replace('₹','')
@@ -113,6 +113,12 @@ amazon_data['discount_percentage'] = amazon_data['discount_percentage'].str.repl
 amazon_data['rating_count'] = amazon_data['rating_count'].str.replace(',','')
 amazon_data
 
+amazon_data['rating'].loc[1279] = amazon_data['rating'].loc[1279].replace('|','0.0')
+
+amazon_data['rating'] = pd.to_numeric(amazon_data['rating'])
+
+amazon_data['rating'].loc[1279]
+
 amazon_data.dtypes
 
 amazon_data['discounted_price'] = amazon_data['discounted_price'].astype('float')
@@ -121,6 +127,9 @@ amazon_data['discount_percentage'] = amazon_data['discount_percentage'].astype('
 amazon_data['rating_count'] = amazon_data['rating_count'].astype('float')
 
 amazon_data.dtypes
+
+amazon_data.drop_duplicates(subset=['category'])
+amazon_data.category
 
 amazon_data.tail()
 
@@ -149,17 +158,37 @@ category_large = category_large.append(small_s)
 
 category_large.plot(kind='pie', title ="Sample of Category Data with Largest top 8 Rating Count with Other being the smallest Rating Count",fontsize=15,labeldistance=None, figsize =(10,10)).legend(bbox_to_anchor =(1.5,1),fontsize=15)
 
+sns.lmplot(x='discount_percentage',y='rating', data=amazon_data)
+
+There is a correlation between the discount price and the rating of all products above 4.0 rating
+
+amazon_data[['rating','category']].min()
+
+
+amazon_data['review_title'].loc[1279]
+
+amazon_data['review_content'].loc[1279]
+
+amazon_data['category'].loc[1279]
+
+
 
 ```
 
 ## Results and findings
+
+![Dashboard](amazon bar graph.png)![amazon bar graph](https://github.com/Chite14/Amazon-products-Analysis/assets/57012971/98559f80-a2ec-45ee-8d43-1e798836cdee)
+![Dashboard](amazon pie chart.png)![amazon pie chart](https://github.com/Chite14/Amazon-products-Analysis/assets/57012971/636fa769-9dc4-4207-8ae5-3255709755d9)
+
 - Highest rating means that products haven't met customers full satisfaction.
 - We can see from the data that Home anf Kitchen appliances are the most sort after products and has the highest ratings followed by Office supplies, with Electronics being the least rated products.
-- 
+- There is a correlation between the discount price and the rating of all products above 4.0 rating.
+- The car and motorbike in the subcategory of hand held vacuums had the lowest rating of 0.0 because data was not included in its rating and was NAN.
 
 
 ## Recommendations
-actions company needs to make based on analysis
+- Products with least ratings should be removed from the amazon online store after a certain period of time has elapsed.
+
 
 
 ## Limitations
